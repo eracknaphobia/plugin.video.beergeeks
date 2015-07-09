@@ -33,6 +33,7 @@ def GET_EPISODES():
     #source = re.compile('<figure>(.+?)</figure').findall(source)
     source = re.compile('class="panel accordian"(.+?)</div>').findall(source)
         
+    episodes = []
 
     for block in source:
         #print block
@@ -59,8 +60,12 @@ def GET_EPISODES():
         #addLink(title, stream, title, image, desc, duration)
         #name = HTMLParser.HTMLParser().unescape(name)
 
-        #name,url,mode,iconimage,fanart=None        
-        addDir(title,stream,100,image)
+        #name,url,mode,iconimage,fanart=None      
+        if title not in episodes:
+            addDir(title,stream,100,image)
+            episodes.append(title)
+
+    
 
 def GET_STREAM_QUALITIES(m3u8_url,img_url):    
         print "M3U8!!!" + m3u8_url
