@@ -57,7 +57,7 @@ def GET_EPISODES():
             stream = 'http://cedexis-video.ora.tv/i/beergeeks/video-'+str(video_id)+'/,basic400,basic600,sd900,sd1200,sd1500,hd720,hd1080,mobile400,.mp4.csmil/master.m3u8'        
             #GET_STREAM_QUALITIES(stream)
             #q = GET_QUALITY(str(video_id))   
-            #stream = stream + q + '|User-Agent='+USER_AGENT
+            #stream = stream + q + '|User-Agent='+USER_AGENT            
 
             #addLink(title, stream, title, image, desc, duration)
             #name = HTMLParser.HTMLParser().unescape(name)
@@ -86,9 +86,11 @@ def GET_STREAM_QUALITIES(m3u8_url,img_url):
         try:
             for temp_url in line:
                 if '.m3u8' in temp_url:
-                    end = m3u8_url.find('master.m3u8')
-                    print m3u8_url.find('master.m3u8')
-                    temp_url = m3u8_url[:end] + temp_url
+                    if 'http://' not in temp_url:
+                        end = m3u8_url.find('master.m3u8')
+                        print m3u8_url.find('master.m3u8')
+                        temp_url = m3u8_url[:end] + temp_url
+                    
                     print temp_url
                     print desc                                
                     addLink(name +' ('+desc+')',temp_url+'|User-Agent='+USER_AGENT, name +' ('+desc+')', img_url)
