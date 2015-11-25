@@ -15,9 +15,9 @@
     <language>en</language>
     <platform>all</platform>
     <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-    <forum></forum>
+    <forum>http://forum.kodi.tv/showthread.php?tid=22969</forum>
     <website></website>
     <email></email>
-    <source></source>
+    <source>https://github.com/eracknaphobia/plugin.video.beergeeks</source>
   </extension>
 </addon>
