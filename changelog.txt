@@ -1,3 +1,7 @@
+v2015.12.30
+- Converted quality selection to a dialog box
+- Bumped python version required
+
 v2015.8.18
 - Fix for quality selection, yet again
 

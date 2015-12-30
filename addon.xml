@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.beergeeks" name="Beer Geeks" version="2015.8.18" provider-name="eracknaphobia">
+<addon id="plugin.video.beergeeks" name="Beer Geeks" version="2015.12.30" provider-name="eracknaphobia">
   <requires>
-   <import addon="xbmc.python" version="2.1.0"/>   
+   <import addon="xbmc.python" version="2.20.0"/>   
    <import addon="script.module.simplejson" version="3.3.0"/>    
   </requires>
   <extension point="xbmc.python.pluginsource" library="main.py">
@@ -15,9 +15,9 @@
     <language>en</language>
     <platform>all</platform>
     <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-    <forum>http://forum.kodi.tv/showthread.php?tid=22969</forum>
+    <forum></forum>
     <website></website>
     <email></email>
-    <source>https://github.com/eracknaphobia/plugin.video.beergeeks</source>
+    <source></source>
   </extension>
 </addon>
