@@ -16,6 +16,7 @@ settings = xbmcaddon.Addon(id='plugin.video.beergeeks')
 
 #Main settings
 QUALITY = int(settings.getSetting(id="quality"))
+AUTO_PLAY = str(settings.getSetting(id="auto_play"))
 
 #Localisation
 local_string = xbmcaddon.Addon(id='plugin.video.beergeeks').getLocalizedString
@@ -82,7 +83,7 @@ def GET_EPISODES():
     
 
 def GET_STREAM_QUALITIES(m3u8_url):  
-    stream_url = []
+    stream_url = {}
     stream_title = []   
     print "M3U8!!!" + m3u8_url
     req = urllib2.Request(m3u8_url)
@@ -107,15 +108,21 @@ def GET_STREAM_QUALITIES(m3u8_url):
                 print temp_url
                 print desc                                
                 #addLink(name +' ('+desc+')',temp_url+'|User-Agent='+USER_AGENT, name +' ('+desc+')', img_url)
-                stream_url.append(temp_url+'|User-Agent='+USER_AGENT)
-                stream_title.append('('+desc+') '+name)
+                title = '('+desc+') '+name
+                stream_title.append(title)
+                #stream_url.append(temp_url+'|User-Agent='+USER_AGENT)
+                stream_url.update({title:temp_url+'|User-Agent='+USER_AGENT})
+                
             else:
                 desc = ''
                 start = temp_url.find('RESOLUTION=')
                 if start > 0:
                     start = start + len('RESOLUTION=')
                     end = temp_url.find(',',start)
-                    desc = temp_url[start:end]
+                    if end != -1:
+                        desc = temp_url[start:end]
+                    else:
+                        desc = temp_url[start:]
                 else:
                     desc = "Audio"
     except:
@@ -126,16 +133,22 @@ def GET_STREAM_QUALITIES(m3u8_url):
 
 def STREAM_SELECT(m3u8_url):
     stream_url, stream_title = GET_STREAM_QUALITIES(m3u8_url)
-    
+    stream_title.sort(key=natural_sort_key)
+
     if len(stream_title) > 0:
-        ret = 0                   
-        dialog = xbmcgui.Dialog() 
-        ret = dialog.select('Choose Stream Quality', stream_title)
+        ret = 0      
+        if str(AUTO_PLAY) == 'true':
+            ret = len(stream_title)-1            
+        else:             
+            dialog = xbmcgui.Dialog() 
+            ret = dialog.select('Choose Stream Quality', stream_title)
         
         if ret >=0:
-            listitem = xbmcgui.ListItem(path=stream_url[ret])
+            url = stream_url.get(stream_title[ret]) 
+            listitem = xbmcgui.ListItem(path=url)
+            #listitem = xbmcgui.ListItem(path=stream_url[ret])
             print "Attempting to play stream..."
-            print stream_url[ret]
+            print url
             xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, listitem)
         else:
             sys.exit()
@@ -144,6 +157,11 @@ def STREAM_SELECT(m3u8_url):
         dialog = xbmcgui.Dialog() 
         ok = dialog.ok('Streams Not Found', msg)
 
+
+def natural_sort_key(s):
+    _nsre = re.compile('([0-9]+)')
+    return [int(text) if text.isdigit() else text.lower()
+            for text in re.split(_nsre, s)] 
 
 def GET_VIDEO_INFO(v_code):
     #https://www.ora.tv/oembed/0_4473hnwr0g57?format=json
