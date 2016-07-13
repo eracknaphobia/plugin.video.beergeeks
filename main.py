@@ -15,7 +15,7 @@ print sys.argv
 settings = xbmcaddon.Addon(id='plugin.video.beergeeks')
 
 #Main settings
-QUALITY = int(settings.getSetting(id="quality"))
+#QUALITY = int(settings.getSetting(id="quality"))
 AUTO_PLAY = str(settings.getSetting(id="auto_play"))
 
 #Localisation

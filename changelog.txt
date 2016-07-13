@@ -1,3 +1,6 @@
+2016.7.13
+- Fixed bug caused obsolete quality setting (no longer used)
+
 2016.4.5
 - Fixed bug
 
